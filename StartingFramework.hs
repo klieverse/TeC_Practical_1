@@ -127,8 +127,6 @@ printUtc :: Bool -> String
 printUtc b | b          = "Z"
            | otherwise  = []
 
-
-
 -- Exercise 4
 parsePrint :: [Char] -> Maybe String
 parsePrint s = fmap printDateTime $ run parseDateTime s
