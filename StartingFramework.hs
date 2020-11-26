@@ -373,8 +373,9 @@ timeSpent summary (Calendar _ es) = sum $ map eventToMinutes $ filter (hasSummar
 
 -- checks whether the event has a given summary
 hasSummary :: String -> Event -> Bool
-hasSummary summary (Event eps) = s == summary
-    where [Summary s] = filter isSummary eps
+hasSummary summary (Event eps) = case filter isSummary eps of
+                                    [Summary s] -> s == summary
+                                    [] -> False
 
 -- returns the amount of minutes spent on a given event
 eventToMinutes :: Event -> Int
