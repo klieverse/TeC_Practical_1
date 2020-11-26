@@ -352,7 +352,7 @@ happensAtTime dt event = let (startTime, endTime) = getStartEndTime event
 -- returns whether there are any overlapping events in the calendar                         
 checkOverlapping :: Calendar -> Bool
 checkOverlapping (Calendar _ evs) =  any (\i -> let (ev, rest) = getEvents i evs
-                                                in any (doOverlap ev) rest ) [0 .. length evs]
+                                                in any (doOverlap ev) rest ) [0 .. length evs - 1]
 
 -- returns the event at place i together with the rest of the events in the list                                                 
 getEvents :: Int -> [Event] -> (Event, [Event])
@@ -380,7 +380,7 @@ hasSummary summary (Event eps) = s == summary
 -- returns the amount of minutes spent on a given event
 eventToMinutes :: Event -> Int
 eventToMinutes event = let (st, et) = getStartEndTime event 
-                       in timeToMinutes $ minDTTime st et
+                       in timeToMinutes $ minDTTime et st
 
 -- returns the start dateTime and end dateTime 
 getStartEndTime :: Event -> (DateTime, DateTime)
