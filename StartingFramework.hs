@@ -328,6 +328,14 @@ printEventProp (Location    v) = "LOCATION:" ++ v ++ "\r\n"
 
 -- Exercise 10
 
+isDtStart, isDtEnd, isSummary :: EventProp -> Bool
+isDtStart (DtStart _ ) = True
+isDtStart _            = False
+isDtEnd (DtEnd _ ) = True
+isDtEnd _               = False
+isSummary (Summary _) = True
+isSummary _ = False
+
 -- return the amount of events in the calendar
 countEvents :: Calendar -> Int
 countEvents (Calendar _ e) = length e
@@ -367,7 +375,7 @@ timeSpent summary (Calendar _ es) = sum $ map eventToMinutes $ filter (hasSummar
 -- checks whether the event has a given summary
 hasSummary :: String -> Event -> Bool
 hasSummary summary (Event eps) = s == summary
-    where [Summary s] = filter (== Summary undefined) eps
+    where [Summary s] = filter isSummary eps
 
 -- returns the amount of minutes spent on a given event
 eventToMinutes :: Event -> Int
@@ -377,8 +385,8 @@ eventToMinutes event = let (st, et) = getStartEndTime event
 -- returns the start dateTime and end dateTime 
 getStartEndTime :: Event -> (DateTime, DateTime)
 getStartEndTime (Event eps) = (startTime, endTime)
-    where [DtStart startTime] = filter (== DtStart undefined) eps
-          [DtEnd   endTime]   = filter (== DtEnd undefined)   eps
+    where [DtStart startTime] = filter isDtStart eps
+          [DtEnd   endTime]   = filter isDtEnd   eps
 
 -- Exercise 11
 ppMonth :: Year -> Month -> Calendar -> String
