@@ -362,8 +362,8 @@ getEvents i events = getEvents (i - 1) (tail events)
 -- checks whether 2 events overlap
 doOverlap :: Event -> Event -> Bool 
 doOverlap event1 event2 | event1 == event2 = False
-                        |  s1 > s2 && e2 > s1 
-                        || s2 > s1 && s2 < e1 = True
+                        |  s1 >= s2 && e2 >= s1 
+                        || s2 >= s1 && s2 <= e1 = True
                         | otherwise = False
                 where (s1, e1) = getStartEndTime event1
                       (s2, e2) = getStartEndTime event1
